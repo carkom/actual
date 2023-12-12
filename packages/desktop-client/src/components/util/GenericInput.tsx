@@ -15,7 +15,18 @@ import { Checkbox } from '../forms';
 import DateSelect from '../select/DateSelect';
 import RecurringSchedulePicker from '../select/RecurringSchedulePicker';
 
-export default function GenericInput({
+type GenericInputProps = {
+  field;
+  subfield?;
+  type;
+  multi?;
+  value;
+  inputRef;
+  style?;
+  onChange;
+};
+
+function GenericInput({
   field,
   subfield,
   type,
@@ -24,9 +35,8 @@ export default function GenericInput({
   inputRef,
   style,
   onChange,
-}) {
+}: GenericInputProps) {
   const { grouped: categoryGroups } = useCategories();
-  const saved = useSelector(state => state.queries.saved);
   const dateFormat = useSelector(
     state => state.prefs.local.dateFormat || 'MM/dd/yyyy',
   );
@@ -47,9 +57,7 @@ export default function GenericInput({
         case 'payee':
           content = (
             <PayeeAutocomplete
-              multi={multi}
               showMakeTransfer={false}
-              openOnFocus={true}
               value={value}
               onSelect={onChange}
               inputProps={{
@@ -100,7 +108,6 @@ export default function GenericInput({
         case 'saved':
           content = (
             <SavedFilterAutocomplete
-              saved={saved}
               value={value}
               multi={multi}
               openOnFocus={true}
@@ -125,7 +132,7 @@ export default function GenericInput({
               inputRef={inputRef}
               defaultValue={value || ''}
               placeholder={getMonthYearFormat(dateFormat).toLowerCase()}
-              onEnter={e => onChange(e.target.value)}
+              onEnter={e => onChange(e.target)}
               onBlur={e => onChange(e.target.value)}
             />
           );
@@ -137,7 +144,7 @@ export default function GenericInput({
               inputRef={inputRef}
               defaultValue={value || ''}
               placeholder={'yyyy'}
-              onEnter={e => onChange(e.target.value)}
+              onEnter={e => onChange(e.target)}
               onBlur={e => onChange(e.target.value)}
             />
           );
@@ -195,7 +202,7 @@ export default function GenericInput({
             inputRef={inputRef}
             defaultValue={value || ''}
             placeholder="nothing"
-            onEnter={e => onChange(e.target.value)}
+            onEnter={e => onChange(e.target)}
             onBlur={e => onChange(e.target.value)}
           />
         );
@@ -205,3 +212,5 @@ export default function GenericInput({
 
   return <View style={{ flex: 1, ...style }}>{content}</View>;
 }
+
+export default GenericInput;

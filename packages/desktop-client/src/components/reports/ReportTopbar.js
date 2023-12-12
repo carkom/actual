@@ -9,7 +9,7 @@ import Queue from '../../icons/v1/Queue';
 import Tag from '../../icons/v1/Tag';
 import { theme } from '../../style';
 import View from '../common/View';
-import { FilterButton } from '../filters/FiltersMenu';
+import FilterButton from '../filters/FilterButton';
 
 import GraphButton from './GraphButton';
 import { SaveReportMenuButton } from './SaveReport';
