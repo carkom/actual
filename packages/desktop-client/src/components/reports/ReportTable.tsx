@@ -11,7 +11,6 @@ import View from '../common/View';
 
 import { type GroupedEntity } from './entities';
 import ReportTableColumnIndex from './ReportTableColumnIndex';
-import ReportTableColumnTotals from './ReportTableColumTotals';
 import ReportTableInner from './ReportTableInner';
 import ReportTableRow from './ReportTableRow';
 
@@ -57,23 +56,6 @@ export default function ReportTable({
     }
   });
 
-  const renderItemTotal = useCallback(
-    ({ item, groupByItem, monthsCount, style, key }) => {
-      return (
-        <ReportTableColumnTotals
-          key={key}
-          item={item}
-          balanceTypeOp={balanceTypeOp}
-          monthsCount={monthsCount}
-          groupByItem={groupByItem}
-          mode={mode}
-          style={style}
-        />
-      );
-    },
-    [],
-  );
-
   const renderItem = useCallback(({ item, groupByItem, mode, style, key }) => {
     return (
       <ReportTableRow
@@ -83,6 +65,7 @@ export default function ReportTable({
         groupByItem={groupByItem}
         mode={mode}
         style={style}
+        monthsCount={monthsCount}
       />
     );
   }, []);
@@ -154,16 +137,18 @@ export default function ReportTable({
         onScroll={handleScroll}
         style={{
           overflowY: 'auto',
-          flexShrink: 0,
         }}
       >
-        <ReportTableInner
-          data={data}
-          monthsCount={monthsCount}
-          mode={mode}
-          groupBy={groupBy}
-          renderItem={renderItemTotal}
-        />
+        {data.map(item => {
+          return (
+            <ReportTableColumnIndex
+              key={item.id}
+              item={item}
+              groupByItem={groupByItem}
+              compact
+            />
+          );
+        })}
       </Block>
     </View>
   );

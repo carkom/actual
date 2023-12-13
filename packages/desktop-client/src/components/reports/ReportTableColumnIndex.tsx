@@ -10,12 +10,14 @@ type ReportTableColumnIndexProps = {
   item?: GroupedEntity;
   groupByItem?: string;
   headerStyle?: CSSProperties;
+  compact?;
 };
 
 function ReportTableColumnIndex({
   item,
   groupByItem,
   headerStyle,
+  compact,
 }: ReportTableColumnIndexProps) {
   return (
     <>
@@ -29,7 +31,7 @@ function ReportTableColumnIndex({
       >
         {item ? (
           <Cell
-            value={item[groupByItem]}
+            value={!compact && item[groupByItem]}
             width="flex"
             title={item[groupByItem].length > 12 && item[groupByItem]}
             style={{
@@ -56,7 +58,7 @@ function ReportTableColumnIndex({
                 >
                   {cat ? (
                     <Cell
-                      value={cat[groupByItem]}
+                      value={!compact && cat[groupByItem]}
                       width="flex"
                       title={cat[groupByItem].length > 12 && cat[groupByItem]}
                       style={{

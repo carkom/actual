@@ -2,7 +2,7 @@ import React from 'react';
 
 import { type CSSProperties, theme } from '../../style';
 import View from '../common/View';
-import { Cell, Row } from '../table';
+import { Row } from '../table';
 
 import { type GroupedEntity } from './entities';
 
@@ -53,41 +53,35 @@ function ReportTableInner({
     <View>
       {data.map((item, index) => {
         return (
-          <View>
-            {data ? (
+          <>
+            <RenderRow
+              key={item.id}
+              index={index}
+              style={
+                item.categories && {
+                  color: theme.tableRowHeaderText,
+                  backgroundColor: theme.tableRowHeaderBackground,
+                  fontWeight: 600,
+                }
+              }
+            />
+            {item.categories && (
               <>
-                <RenderRow
-                  key={item.id}
-                  index={index}
-                  style={
-                    item.categories && {
-                      color: theme.tableRowHeaderText,
-                      backgroundColor: theme.tableRowHeaderBackground,
-                      fontWeight: 600,
-                    }
-                  }
-                />
-                {item.categories && (
-                  <>
-                    <View>
-                      {item.categories.map((category, i) => {
-                        return (
-                          <RenderRow
-                            key={category.id}
-                            index={i}
-                            parent_index={index}
-                          />
-                        );
-                      })}
-                    </View>
-                    <Row height={20} />
-                  </>
-                )}
+                <View>
+                  {item.categories.map((category, i) => {
+                    return (
+                      <RenderRow
+                        key={category.id}
+                        index={i}
+                        parent_index={index}
+                      />
+                    );
+                  })}
+                </View>
+                <Row height={20} />
               </>
-            ) : (
-              <Cell width="flex" />
             )}
-          </View>
+          </>
         );
       })}
     </View>

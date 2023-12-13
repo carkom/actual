@@ -41,74 +41,67 @@ function ReportTableHeader({
         }}
         value={groupBy}
       />
-      {interval ? (
-        <View
-          innerRef={headerScrollRef}
-          onScroll={handleScroll}
-          id={'header'}
-          style={{
-            overflowX: 'auto',
-            scrollbarWidth: 'none',
-            '::-webkit-scrollbar': { display: 'none' },
-            flexDirection: 'row',
-            flex: 1,
-            flexShrink: 1,
-          }}
-        >
-          {interval.map((header, index) => {
-            return (
-              <Cell
-                style={{
-                  minWidth: 85,
-                  ...styles.tnum,
-                }}
-                key={index}
-                value={header.date}
-                width="flex"
-              />
-            );
-          })}
-        </View>
-      ) : (
-        <Cell width="flex" />
-      )}
       <View
+        innerRef={headerScrollRef}
+        onScroll={handleScroll}
+        id={'header'}
         style={{
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          '::-webkit-scrollbar': { display: 'none' },
           flexDirection: 'row',
-          flexShrink: 0,
+          flex: 1,
         }}
       >
-        {balanceType === 'Net' && (
-          <>
-            <Cell
-              style={{
-                width: 85,
-                ...styles.tnum,
-              }}
-              value={'Deposits'}
-            />
-            <Cell
-              style={{
-                width: 85,
-                ...styles.tnum,
-              }}
-              value={'Payments'}
-            />
-          </>
-        )}
+        {interval
+          ? interval.map((header, index) => {
+              return (
+                <Cell
+                  style={{
+                    minWidth: 85,
+                    ...styles.tnum,
+                  }}
+                  key={index}
+                  value={header.date}
+                  width="flex"
+                />
+              );
+            })
+          : balanceType === 'Net' && (
+              <>
+                <Cell
+                  style={{
+                    minWidth: 85,
+                    ...styles.tnum,
+                  }}
+                  value={'Deposits'}
+                  width="flex"
+                />
+                <Cell
+                  style={{
+                    minWidth: 85,
+                    ...styles.tnum,
+                  }}
+                  value={'Payments'}
+                  width="flex"
+                />
+              </>
+            )}
         <Cell
           style={{
-            width: 85,
+            minWidth: 85,
             ...styles.tnum,
           }}
           value={'Totals'}
+          width="flex"
         />
         <Cell
           style={{
-            width: 85,
+            minWidth: 85,
             ...styles.tnum,
           }}
           value={'Average'}
+          width="flex"
         />
         {scrollWidth > 0 && <Cell width={scrollWidth} />}
       </View>
