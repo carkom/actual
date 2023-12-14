@@ -55,6 +55,9 @@ function ReportTableTotals({
         borderTopWidth: 1,
         borderColor: theme.tableBorder,
         justifyContent: 'center',
+        color: theme.tableHeaderText,
+        backgroundColor: theme.tableHeaderBackground,
+        fontWeight: 600,
       }}
     >
       <View

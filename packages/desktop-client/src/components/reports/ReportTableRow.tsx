@@ -69,7 +69,7 @@ const ReportTableRow = memo(
                   }
                   width="flex"
                   style={{
-                    width: 85,
+                    minWidth: 85,
                     ...styles.tnum,
                   }}
                 />
@@ -81,7 +81,7 @@ const ReportTableRow = memo(
                   }
                   width="flex"
                   style={{
-                    width: 85,
+                    minWidth: 85,
                     ...styles.tnum,
                   }}
                 />
@@ -95,9 +95,10 @@ const ReportTableRow = memo(
           }
           style={{
             fontWeight: 600,
-            width: 85,
+            minWidth: 85,
             ...styles.tnum,
           }}
+          width="flex"
           privacyFilter
         />
         <Cell
@@ -108,9 +109,10 @@ const ReportTableRow = memo(
           }
           style={{
             fontWeight: 600,
-            width: 85,
+            minWidth: 85,
             ...styles.tnum,
           }}
+          width="flex"
           privacyFilter
         />
       </Row>

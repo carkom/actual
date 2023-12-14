@@ -29,8 +29,11 @@ function ReportTableHeader({
       collapsed={true}
       style={{
         justifyContent: 'center',
-        borderTopWidth: 1,
+        borderBottomWidth: 1,
         borderColor: theme.tableBorder,
+        color: theme.tableHeaderText,
+        backgroundColor: theme.tableHeaderBackground,
+        fontWeight: 600,
       }}
     >
       <Cell

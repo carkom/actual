@@ -29,9 +29,9 @@ function ReportTableColumnIndex({
           ...headerStyle,
         }}
       >
-        {item ? (
+        {item && !compact ? (
           <Cell
-            value={!compact && item[groupByItem]}
+            value={item[groupByItem]}
             width="flex"
             title={item[groupByItem].length > 12 && item[groupByItem]}
             style={{
@@ -56,9 +56,9 @@ function ReportTableColumnIndex({
                     backgroundColor: theme.tableBackground,
                   }}
                 >
-                  {cat ? (
+                  {cat && !compact ? (
                     <Cell
-                      value={!compact && cat[groupByItem]}
+                      value={cat[groupByItem]}
                       width="flex"
                       title={cat[groupByItem].length > 12 && cat[groupByItem]}
                       style={{
