@@ -51,7 +51,6 @@ export default function CustomReport() {
   const [endDate, setEndDate] = useState(monthUtils.currentMonth());
 
   const [mode, setMode] = useState('total');
-  const [datePaused, setDatePaused] = useState('live');
   const [groupBy, setGroupBy] = useState('Category');
   const [balanceType, setBalanceType] = useState('Payment');
   const [showEmpty, setShowEmpty] = useState(false);
@@ -127,7 +126,6 @@ export default function CustomReport() {
     selectedCategories,
     filters,
     conditionsOp,
-    showEmpty,
     showOffBudgetHidden,
     showUncategorized,
   ]);
@@ -212,8 +210,6 @@ export default function CustomReport() {
           setBalanceType={setBalanceType}
           mode={mode}
           setMode={setMode}
-          datePaused={datePaused}
-          setDatePaused={setDatePaused}
           showEmpty={showEmpty}
           setShowEmpty={setShowEmpty}
           showOffBudgetHidden={showOffBudgetHidden}

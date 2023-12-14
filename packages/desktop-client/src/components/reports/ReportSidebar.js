@@ -38,8 +38,6 @@ export function ReportSidebar({
   setBalanceType,
   mode,
   setMode,
-  datePaused,
-  setDatePaused,
   showEmpty,
   setShowEmpty,
   showOffBudgetHidden,
@@ -79,15 +77,6 @@ export function ReportSidebar({
         break;
       default:
         onChangeDates(...getLatestRange(ReportOptions.dateRangeMap.get(cond)));
-    }
-  };
-
-  const onChangeDatePaused = cond => {
-    setDatePaused(cond);
-    if (cond === 'live') {
-      onSelectRange(dateRange);
-    } else {
-      onChangeDates(startDate, endDate);
     }
   };
 
@@ -336,85 +325,67 @@ export function ReportSidebar({
           <Text>
             <strong>Date filters</strong>
           </Text>
-          <View style={{ flex: 1 }} />
-          <ModeButton
-            selected={datePaused === 'live'}
-            onSelect={() => onChangeDatePaused('live')}
-          >
-            Live
-          </ModeButton>
-          <ModeButton
-            selected={datePaused === 'static'}
-            onSelect={() => onChangeDatePaused('static')}
-          >
-            Static
-          </ModeButton>
         </View>
-        {datePaused === 'live' ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 5,
-              alignItems: 'center',
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 5,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
+            Range:
+          </Text>
+          <Select
+            value={dateRange}
+            onChange={e => {
+              setDateRange(e);
+              onSelectRange(e);
             }}
-          >
-            <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
-              Range:
-            </Text>
-            <Select
-              value={dateRange}
-              onChange={e => {
-                setDateRange(e);
-                onSelectRange(e);
-              }}
-              options={ReportOptions.dateRange.map(option => [
-                option.description,
-                option.description,
-              ])}
-              line={dateRangeLine}
-            />
-          </View>
-        ) : (
-          <>
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 5,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
-                From:
-              </Text>
-              <Select
-                onChange={newValue =>
-                  onChangeDates(...validateStart(allMonths, newValue, endDate))
-                }
-                value={startDate}
-                defaultLabel={monthUtils.format(startDate, 'MMMM, yyyy')}
-                options={allMonths.map(({ name, pretty }) => [name, pretty])}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 5,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
-                To:
-              </Text>
-              <Select
-                onChange={newValue =>
-                  onChangeDates(...validateEnd(allMonths, startDate, newValue))
-                }
-                value={endDate}
-                options={allMonths.map(({ name, pretty }) => [name, pretty])}
-              />
-            </View>
-          </>
-        )}
+            options={ReportOptions.dateRange.map(option => [
+              option.description,
+              option.description,
+            ])}
+            line={dateRangeLine}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 5,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
+            From:
+          </Text>
+          <Select
+            onChange={newValue =>
+              onChangeDates(...validateStart(allMonths, newValue, endDate))
+            }
+            value={startDate}
+            defaultLabel={monthUtils.format(startDate, 'MMMM, yyyy')}
+            options={allMonths.map(({ name, pretty }) => [name, pretty])}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 5,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ width: 40, textAlign: 'right', marginRight: 5 }}>
+            To:
+          </Text>
+          <Select
+            onChange={newValue =>
+              onChangeDates(...validateEnd(allMonths, startDate, newValue))
+            }
+            value={endDate}
+            options={allMonths.map(({ name, pretty }) => [name, pretty])}
+          />
+        </View>
         <View
           style={{
             height: 1,

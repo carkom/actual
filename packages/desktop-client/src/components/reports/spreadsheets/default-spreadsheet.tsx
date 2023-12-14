@@ -170,7 +170,9 @@ export default function createSpreadsheet({
 
     setData({
       data: calcData.filter(i => (!showEmpty ? i[balanceTypeOp] !== 0 : true)),
-      monthData,
+      monthData: monthData.filter(i =>
+        !showEmpty ? i[balanceTypeOp] !== 0 : true,
+      ),
       startDate,
       endDate,
       totalDebts: integerToAmount(totalDebts),
