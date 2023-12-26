@@ -10,7 +10,6 @@ import {
 import { styles, theme } from '../../../../style';
 import View from '../../../common/View';
 import { Row, Cell } from '../../../table';
-
 import { type DataEntity } from '../../entities';
 
 type ReportTableTotalsProps = {

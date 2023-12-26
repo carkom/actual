@@ -4,7 +4,6 @@ import { type RefProp } from 'react-spring';
 import { styles, theme } from '../../../../style';
 import View from '../../../common/View';
 import { Row, Cell } from '../../../table';
-
 import { type MonthData } from '../../entities';
 
 type ReportTableHeaderProps = {
