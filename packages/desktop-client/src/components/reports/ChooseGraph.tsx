@@ -10,10 +10,10 @@ import DonutGraph from './graphs/DonutGraph';
 import LineGraph from './graphs/LineGraph';
 import StackedBarGraph from './graphs/StackedBarGraph';
 import { ReportOptions } from './ReportOptions';
-import ReportTable from './ReportTable';
-import ReportTableHeader from './ReportTableHeader';
-import ReportTableList from './ReportTableList';
-import ReportTableTotals from './ReportTableTotals';
+import ReportTable from './graphs/tableGraph/ReportTable';
+import ReportTableHeader from './graphs/tableGraph/ReportTableHeader';
+import ReportTableList from './graphs/tableGraph/ReportTableList';
+import ReportTableTotals from './graphs/tableGraph/ReportTableTotals';
 
 type ChooseGraphProps = {
   data: DataEntity;
