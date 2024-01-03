@@ -738,6 +738,8 @@ export default function ImportTransactions({ modalProps, options }) {
 
   const [clearOnImport, setClearOnImport] = useState(true);
 
+  const [createMissingCateogies, setCreateMissingCateogies] = useState(true);
+
   const enableExperimentalOfxParser = useFeatureFlag('experimentalOfxParser');
 
   async function parse(filename, options) {
@@ -1169,6 +1171,15 @@ export default function ImportTransactions({ modalProps, options }) {
                   }}
                 >
                   Clear transactions on import
+                </CheckboxOption>
+                <CheckboxOption
+                  id="create_missing_categories"
+                  checked={createMissingCateogies}
+                  onChange={() => {
+                    setCreateMissingCateogies(!createMissingCateogies);
+                  }}
+                >
+                  Create missing categories
                 </CheckboxOption>
               </View>
             )}
