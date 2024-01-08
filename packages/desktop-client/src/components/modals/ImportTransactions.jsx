@@ -304,8 +304,8 @@ function parseAmountFields(
 function parseCategoryFields(trans, categories) {
   let match = null;
   categories.forEach(category => {
-    if (category.id === trans.category) {
-      return null;
+    if (category.id === trans.category.id) {
+      match = category.id;
     }
     if (category.name === trans.category) {
       match = category.id;
@@ -326,8 +326,11 @@ function Transaction({
   flipAmount,
   multiplierAmount,
   categories,
+  setDuplicatesExist,
+  onUpdateCategory,
 }) {
-  const categoryList = categories.map(category => category.name);
+  const categoryList = categories.list.map(category => category.name);
+  const [category, setCategory] = useState(0);
   const transaction = useMemo(
     () =>
       fieldMappings
@@ -347,6 +350,10 @@ function Transaction({
   amount = amountToCurrency(amount);
   outflow = amountToCurrency(outflow);
   inflow = amountToCurrency(inflow);
+
+  const filteredList = categories.list.filter(
+    cat => cat.name === transaction.category,
+  );
 
   return (
     <Row
@@ -380,7 +387,27 @@ function Transaction({
           categoryList.includes(transaction.category) && transaction.category
         }
       >
-        {categoryList.includes(transaction.category) && transaction.category}
+        {filteredList.length > 1 ? (
+          setDuplicatesExist(true),
+          <Select
+            value={category}
+            onChange={e => {
+              setCategory(e);
+              onUpdateCategory(category);
+            }}
+            options={filteredList.map((cat, idx) => [
+              idx,
+              cat.name +
+                ' (' +
+                categories.grouped.find(group => group.id === cat.cat_group)
+                  .name +
+                ')',
+            ])}
+            style={{ display: 'flex' }}
+          />
+        ) : (
+          categoryList.includes(transaction.category) && transaction.category
+        )}
       </Field>
       {splitMode ? (
         <>
@@ -722,6 +749,7 @@ export function ImportTransactions({ modalProps, options }) {
   const [flipAmount, setFlipAmount] = useState(false);
   const [multiplierEnabled, setMultiplierEnabled] = useState(false);
   const { accountId, categories, onImported } = options;
+  const [duplicatesExist, setDuplicatesExist] = useState(false);
 
   // This cannot be set after parsing the file, because changing it
   // requires re-parsing the file. This is different from the other
@@ -873,6 +901,10 @@ export function ImportTransactions({ modalProps, options }) {
     });
 
     parse(res[0], parseOptions);
+  }
+
+  function onUpdateCategory(category) {
+    setFieldMappings({ ...fieldMappings, 'category': category.name === '' ? null : category });
   }
 
   function onUpdateFields(field, name) {
@@ -1040,7 +1072,9 @@ export function ImportTransactions({ modalProps, options }) {
                   outValue={outValue}
                   flipAmount={flipAmount}
                   multiplierAmount={multiplierAmount}
-                  categories={categories.list}
+                  categories={categories}
+                  setDuplicatesExist={setDuplicatesExist}
+                  onUpdateCategory={onUpdateCategory}
                 />
               </View>
             )}
@@ -1242,6 +1276,13 @@ export function ImportTransactions({ modalProps, options }) {
           </ButtonWithLoading>
         </View>
       </View>
+      {duplicatesExist && 
+        <View style={{ color: theme.warningText, marginTop: 15 }}>
+          <Text>
+            Duplicate categories need to be reconciled.
+          </Text>
+        </View>
+      }
     </Modal>
   );
 }
