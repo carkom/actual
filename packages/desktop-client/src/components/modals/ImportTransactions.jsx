@@ -303,14 +303,22 @@ function parseAmountFields(
 
 function parseCategoryFields(trans, categories) {
   let match = null;
-  categories.forEach(category => {
-    if (category.id === trans.category.id) {
-      match = category.id;
+  const filteredList = categories.filter(
+    cat => cat.name === trans.category,
+  );
+
+  if (filteredList > 1){
+    return null;
+  }
+
+  categories.forEach(cat => {
+    if (cat.id === trans.category) {
+      return null;
     }
-    if (category.name === trans.category) {
-      match = category.id;
+    if (cat.name === trans.category) {
+      match = cat.id;
     }
-  });
+  })
   return match;
 }
 
@@ -330,7 +338,6 @@ function Transaction({
   onUpdateCategory,
 }) {
   const categoryList = categories.list.map(category => category.name);
-  const [category, setCategory] = useState(0);
   const transaction = useMemo(
     () =>
       fieldMappings
@@ -354,7 +361,8 @@ function Transaction({
   const filteredList = categories.list.filter(
     cat => cat.name === transaction.category,
   );
-
+  const [category, setCategory] = useState(filteredList[0] && filteredList[0].id);
+  
   return (
     <Row
       style={{
@@ -393,10 +401,10 @@ function Transaction({
             value={category}
             onChange={e => {
               setCategory(e);
-              onUpdateCategory(category);
+              transaction.category = category;
             }}
             options={filteredList.map((cat, idx) => [
-              idx,
+              cat.id,
               cat.name +
                 ' (' +
                 categories.grouped.find(group => group.id === cat.cat_group)
@@ -741,6 +749,7 @@ export function ImportTransactions({ modalProps, options }) {
   const [error, setError] = useState(null);
   const [filename, setFilename] = useState(options.filename);
   const [transactions, setTransactions] = useState([]);
+  const [categoryList, setCategoryList] = useState();
   const [filetype, setFileType] = useState(null);
   const [fieldMappings, setFieldMappings] = useState(null);
   const [splitMode, setSplitMode] = useState(false);
@@ -903,8 +912,9 @@ export function ImportTransactions({ modalProps, options }) {
     parse(res[0], parseOptions);
   }
 
-  function onUpdateCategory(category) {
-    setFieldMappings({ ...fieldMappings, 'category': category.name === '' ? null : category });
+  function onUpdateCategory(categoryCall) {
+    //use a callback
+    setCategoryList(categoryCall);
   }
 
   function onUpdateFields(field, name) {
