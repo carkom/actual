@@ -1,11 +1,14 @@
-
-type subfieldFromFilter = {
+type subfieldFromFilterProps = {
   field;
   value;
   options?;
 };
 
-function subfieldFromFilter({ field, value, options }) {
+export function subfieldFromFilter({
+  field,
+  value,
+  options,
+}: subfieldFromFilterProps) {
   if (field === 'date') {
     if (value.length === 7) {
       return 'month';
@@ -21,5 +24,3 @@ function subfieldFromFilter({ field, value, options }) {
   }
   return field;
 }
-
-export default subfieldFromFilter;

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Stack from '../common/Stack';
-import View from '../common/View';
+import { Stack } from '../common/Stack';
+import { View } from '../common/View';
 
-import AppliedFilters from './AppliedFilters';
-import SavedFilterMenuButton from './SavedFilterMenuButton';
+import { AppliedFilters } from './AppliedFilters';
+import { SavedFilterMenuButton } from './SavedFilterMenuButton';
 
-function FiltersStack({
+export function FiltersStack({
   filters,
   conditionsOp,
   onUpdateFilter,
@@ -45,5 +45,3 @@ function FiltersStack({
     </View>
   );
 }
-
-export default FiltersStack;

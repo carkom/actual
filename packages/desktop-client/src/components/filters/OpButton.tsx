@@ -3,7 +3,7 @@ import React from 'react';
 import { friendlyOp } from 'loot-core/src/shared/rules';
 
 import { type CSSProperties, theme } from '../../style';
-import Button from '../common/Button';
+import { Button } from '../common/Button';
 
 type OpButtonProps = {
   op: string;
@@ -12,7 +12,7 @@ type OpButtonProps = {
   style?: CSSProperties;
 };
 
-function OpButton({ op, selected, onClick, style }: OpButtonProps) {
+export function OpButton({ op, selected, onClick, style }: OpButtonProps) {
   return (
     <Button
       type="bare"
@@ -34,5 +34,3 @@ function OpButton({ op, selected, onClick, style }: OpButtonProps) {
     </Button>
   );
 }
-
-export default OpButton;

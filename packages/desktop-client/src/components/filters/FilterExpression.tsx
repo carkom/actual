@@ -3,19 +3,18 @@ import React, { useState } from 'react';
 import { mapField, friendlyOp } from 'loot-core/src/shared/rules';
 import { integerToCurrency } from 'loot-core/src/shared/util';
 
-import DeleteIcon from '../../icons/v0/Delete';
+import { SvgDelete } from '../../icons/v0/Delete';
 import { theme } from '../../style';
-import Button from '../common/Button';
-import Text from '../common/Text';
-import View from '../common/View';
-import Value from '../rules/Value';
+import { Button } from '../common/Button';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
+import { Value } from '../rules/Value';
 
-import FilterEditor from './FilterEditor';
-import subfieldFromFilter from './subfieldFromFilter';
+import { FilterEditor } from './FilterEditor';
 
 type FilterExpressionProps = {
   key?;
-  field;
+  field: string;
   customName;
   op;
   value;
@@ -26,9 +25,9 @@ type FilterExpressionProps = {
   onDelete;
 };
 
-function FilterExpression({
+export function FilterExpression({
   key,
-  field = originalField,
+  field,
   customName,
   op,
   value,
@@ -39,8 +38,6 @@ function FilterExpression({
   onDelete,
 }: FilterExpressionProps) {
   const [editing, setEditing] = useState(false);
-
-  const field = subfieldFromFilter({ field: originalField, value });
 
   return (
     <View
@@ -81,7 +78,7 @@ function FilterExpression({
         </div>
       </Button>
       <Button type="bare" onClick={onDelete} aria-label="Delete filter">
-        <DeleteIcon
+        <SvgDelete
           style={{
             width: 8,
             height: 8,
@@ -92,7 +89,7 @@ function FilterExpression({
       </Button>
       {editing && (
         <FilterEditor
-          field={originalField}
+          field={field}
           op={op}
           value={field === 'amount' ? integerToCurrency(value) : value}
           options={options}
@@ -103,5 +100,3 @@ function FilterExpression({
     </View>
   );
 }
-
-export default FilterExpression;

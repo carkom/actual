@@ -155,12 +155,12 @@ type PayeeAutocompleteProps = {
   inputProps: ComponentProps<typeof Autocomplete>['inputProps'];
   showMakeTransfer?: boolean;
   showManagePayees?: boolean;
-  tableBehavior: ComponentProps<typeof Autocomplete>['tableBehavior'];
+  tableBehavior?: ComponentProps<typeof Autocomplete>['tableBehavior'];
   embedded?: boolean;
-  closeOnBlur: ComponentProps<typeof Autocomplete>['closeOnBlur'];
+  closeOnBlur?: ComponentProps<typeof Autocomplete>['closeOnBlur'];
   onUpdate?: (value: string) => void;
   onSelect?: (value: string) => void;
-  onManagePayees: () => void;
+  onManagePayees?: () => void;
   renderCreatePayeeButton?: (props: CreatePayeeButtonProps) => ReactNode;
   renderPayeeItemGroupHeader?: (props: PayeeItemGroupHeaderProps) => ReactNode;
   renderPayeeItem?: (props: PayeeItemProps) => ReactNode;

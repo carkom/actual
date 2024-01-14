@@ -1,4 +1,4 @@
-function subfieldToOptions(field, subfield) {
+export function subfieldToOptions(field, subfield) {
   switch (field) {
     case 'amount':
       switch (subfield) {
@@ -22,5 +22,3 @@ function subfieldToOptions(field, subfield) {
       return null;
   }
 }
-
-export default subfieldToOptions;

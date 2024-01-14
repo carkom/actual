@@ -1,15 +1,19 @@
 import React from 'react';
 
-import { type RuleConditionEntity } from 'loot-core/src/types/models';
+import { Menu } from '../common/Menu';
+import { MenuTooltip } from '../common/MenuTooltip';
 
-import Menu from '../common/Menu';
-import MenuTooltip from '../common/MenuTooltip';
+type FilterMenuProps = {
+  onClose;
+  filterId;
+  onFilterMenuSelect: (item: string) => void;
+};
 
-function FilterMenu(
+export function FilterMenu({
   onClose,
-  filterId: RuleConditionEntity,
-  onFilterMenuSelect: (item: string) => void,
-) {
+  filterId,
+  onFilterMenuSelect,
+}: FilterMenuProps) {
   return (
     <MenuTooltip width={200} onClose={onClose}>
       <Menu
@@ -50,5 +54,3 @@ function FilterMenu(
     </MenuTooltip>
   );
 }
-
-export default FilterMenu;

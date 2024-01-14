@@ -21,16 +21,16 @@ import {
 import { titleFirst } from 'loot-core/src/shared/util';
 
 import { theme } from '../../style';
-import HoverTarget from '../common/HoverTarget';
-import Menu from '../common/Menu';
-import Text from '../common/Text';
-import View from '../common/View';
+import { HoverTarget } from '../common/HoverTarget';
+import { Menu } from '../common/Menu';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 import { Tooltip } from '../tooltips';
 
-import CompactFiltersButton from './CompactFiltersButton';
-import ConfigureField from './ConfigureField';
-import FiltersButton from './FiltersButton';
-import updateFilterReducer from './updateFilterReducer';
+import { CompactFiltersButton } from './CompactFiltersButton';
+import { ConfigureField } from './ConfigureField';
+import { FiltersButton } from './FiltersButton';
+import { updateFilterReducer } from './updateFilterReducer';
 
 const filterFields = [
   'date',
@@ -43,7 +43,7 @@ const filterFields = [
   'saved',
 ].map(field => [field, mapField(field)]);
 
-function FilterButton({ onApply, compact, hover }) {
+export function FilterButton({ onApply, compact, hover }) {
   const filters = useFilters();
 
   const { dateFormat } = useSelector(state => {
@@ -182,5 +182,3 @@ function FilterButton({ onApply, compact, hover }) {
     </View>
   );
 }
-
-export default FilterButton;

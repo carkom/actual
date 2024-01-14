@@ -6,24 +6,33 @@ import { mapField, FIELD_TYPES, TYPE_INFO } from 'loot-core/src/shared/rules';
 import { titleFirst } from 'loot-core/src/shared/util';
 
 import { theme } from '../../style';
-import Button from '../common/Button';
-import Select from '../common/Select';
-import Stack from '../common/Stack';
-import View from '../common/View';
+import { Button } from '../common/Button';
+import { Select } from '../common/Select';
+import { Stack } from '../common/Stack';
+import { View } from '../common/View';
 import { Tooltip } from '../tooltips';
-import GenericInput from '../util/GenericInput';
+import { GenericInput } from '../util/GenericInput';
 
-import OpButton from './OpButton';
-import subfieldToOptions from './subfieldToOptions';
+import { OpButton } from './OpButton';
+import { subfieldToOptions } from './subfieldToOptions';
 
-function ConfigureField({
+type ConfigureFieldProps = {
+  field;
+  initialSubfield?;
+  op;
+  value;
+  dispatch;
+  onApply;
+};
+
+export function ConfigureField({
   field,
   initialSubfield = field,
   op,
   value,
   dispatch,
   onApply,
-}) {
+}: ConfigureFieldProps) {
   const [subfield, setSubfield] = useState(initialSubfield);
   const inputRef = useRef();
   const prevOp = useRef(null);
@@ -205,5 +214,3 @@ function ConfigureField({
     </Tooltip>
   );
 }
-
-export default ConfigureField;

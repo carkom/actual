@@ -1,14 +1,14 @@
 import React, { useEffect, createRef } from 'react';
 
 import { theme } from '../../style';
-import Button from '../common/Button';
-import MenuTooltip from '../common/MenuTooltip';
-import Stack from '../common/Stack';
-import Text from '../common/Text';
+import { Button } from '../common/Button';
+import { MenuTooltip } from '../common/MenuTooltip';
+import { Stack } from '../common/Stack';
+import { Text } from '../common/Text';
 import { FormField, FormLabel } from '../forms';
-import GenericInput from '../util/GenericInput';
+import { GenericInput } from '../util/GenericInput';
 
-function NameFilter({
+export function NameFilter({
   onClose,
   menuItem,
   name,
@@ -70,5 +70,3 @@ function NameFilter({
     </MenuTooltip>
   );
 }
-
-export default NameFilter;

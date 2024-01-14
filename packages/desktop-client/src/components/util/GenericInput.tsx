@@ -15,7 +15,6 @@ import { Checkbox } from '../forms';
 import { DateSelect } from '../select/DateSelect';
 import { RecurringSchedulePicker } from '../select/RecurringSchedulePicker';
 
-<<<<<<<< HEAD:packages/desktop-client/src/components/util/GenericInput.tsx
 type GenericInputProps = {
   field;
   subfield?;
@@ -27,10 +26,7 @@ type GenericInputProps = {
   onChange;
 };
 
-function GenericInput({
-========
 export function GenericInput({
->>>>>>>> upstream/master:packages/desktop-client/src/components/util/GenericInput.jsx
   field,
   subfield,
   type,
@@ -147,13 +143,8 @@ export function GenericInput({
             <Input
               inputRef={inputRef}
               defaultValue={value || ''}
-<<<<<<<< HEAD:packages/desktop-client/src/components/util/GenericInput.tsx
-              placeholder={'yyyy'}
-              onEnter={e => onChange(e.target)}
-========
               placeholder="yyyy"
-              onEnter={e => onChange(e.target.value)}
->>>>>>>> upstream/master:packages/desktop-client/src/components/util/GenericInput.jsx
+              onEnter={e => onChange(e.target)}
               onBlur={e => onChange(e.target.value)}
             />
           );
@@ -221,5 +212,3 @@ export function GenericInput({
 
   return <View style={{ flex: 1, ...style }}>{content}</View>;
 }
-
-export default GenericInput;

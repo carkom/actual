@@ -2,9 +2,9 @@ import React, { useReducer } from 'react';
 
 import { unparse, FIELD_TYPES } from 'loot-core/src/shared/rules';
 
-import ConfigureField from './ConfigureField';
-import subfieldFromFilter from './subfieldFromFilter';
-import updateFilterReducer from './updateFilterReducer';
+import { ConfigureField } from './ConfigureField';
+import { subfieldFromFilter } from './subfieldFromFilter';
+import { updateFilterReducer } from './updateFilterReducer';
 
 type FilterEditorProps = {
   field;
@@ -15,7 +15,14 @@ type FilterEditorProps = {
   onClose;
 };
 
-function FilterEditor({ field, op, value, options, onSave, onClose }: FilterEditorProps) {
+export function FilterEditor({
+  field,
+  op,
+  value,
+  options,
+  onSave,
+  onClose,
+}: FilterEditorProps) {
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -44,5 +51,3 @@ function FilterEditor({ field, op, value, options, onSave, onClose }: FilterEdit
     />
   );
 }
-
-export default FilterEditor;

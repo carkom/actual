@@ -1,6 +1,6 @@
 import { makeValue, FIELD_TYPES } from 'loot-core/src/shared/rules';
 
-function updateFilterReducer(state, action) {
+export function updateFilterReducer(state, action) {
   switch (action.type) {
     case 'set-op': {
       const type = FIELD_TYPES.get(state.field);
@@ -28,5 +28,3 @@ function updateFilterReducer(state, action) {
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 }
-
-export default updateFilterReducer;

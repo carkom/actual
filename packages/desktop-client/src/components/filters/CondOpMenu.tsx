@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { theme } from '../../style';
-import Text from '../common/Text';
+import { Text } from '../common/Text';
 import { FieldSelect } from '../modals/EditRule';
 
-function CondOpMenu({ conditionsOp, onCondOpChange, filters }) {
+export function CondOpMenu({ conditionsOp, onCondOpChange, filters }) {
   return (
     filters.length > 1 && (
       <Text style={{ color: theme.pageText, marginTop: 11, marginRight: 5 }}>
@@ -22,5 +22,3 @@ function CondOpMenu({ conditionsOp, onCondOpChange, filters }) {
     )
   );
 }
-
-export default CondOpMenu;

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 import { send, sendCatch } from 'loot-core/src/platform/client/fetch';
 
-import ExpandArrow from '../../icons/v0/ExpandArrow';
-import Button from '../common/Button';
-import Text from '../common/Text';
-import View from '../common/View';
+import { SvgExpandArrow } from '../../icons/v0/ExpandArrow';
+import { Button } from '../common/Button';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 
-import FilterMenu from './FilterMenu';
-import NameFilter from './NameFilter';
+import { FilterMenu } from './FilterMenu';
+import { NameFilter } from './NameFilter';
 
-function SavedFilterMenuButton({
+export function SavedFilterMenuButton({
   filters,
   conditionsOp,
   filterId,
@@ -147,7 +147,7 @@ function SavedFilterMenuButton({
           {filterId.id && filterId.status !== 'saved' && (
             <Text>(modified)&nbsp;</Text>
           )}
-          <ExpandArrow width={8} height={8} style={{ marginRight: 5 }} />
+          <SvgExpandArrow width={8} height={8} style={{ marginRight: 5 }} />
         </Button>
       )}
       {menuOpen && (
@@ -171,5 +171,3 @@ function SavedFilterMenuButton({
     </View>
   );
 }
-
-export default SavedFilterMenuButton;

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import View from '../common/View';
+import { View } from '../common/View';
 
-import CondOpMenu from './CondOpMenu';
-import FilterExpression from './FilterExpression';
+import { CondOpMenu } from './CondOpMenu';
+import { FilterExpression } from './FilterExpression';
 
 type AppliedFiltersProps = {
   filters;
@@ -14,14 +14,14 @@ type AppliedFiltersProps = {
   editingFilter?;
 };
 
-function AppliedFilters({
+export function AppliedFilters({
   filters,
   editingFilter,
   onUpdate,
   onDelete,
   conditionsOp,
   onCondOpChange,
-}:AppliedFiltersProps) {
+}: AppliedFiltersProps) {
   return (
     <View
       style={{
@@ -50,5 +50,3 @@ function AppliedFilters({
     </View>
   );
 }
-
-export default AppliedFilters;
