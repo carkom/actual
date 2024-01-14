@@ -5,8 +5,7 @@ export type FeatureFlag =
   | 'sankeyReport'
   | 'reportBudget'
   | 'goalTemplatesEnabled'
-  | 'customReports'
-  | 'experimentalOfxParser';
+  | 'customReports';
 
 export type LocalPrefs = Partial<
   {
@@ -50,10 +49,13 @@ export type LocalPrefs = Partial<
     userId: string;
     resetClock: boolean;
     lastScheduleRun: string;
+    reportsViewLegend: boolean;
+    reportsViewSummary: boolean;
+    reportsViewLabel: boolean;
   } & Record<`flags.${FeatureFlag}`, boolean>
 >;
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'auto';
 export type GlobalPrefs = Partial<{
   floatingSidebar: boolean;
   maxMonths: number;

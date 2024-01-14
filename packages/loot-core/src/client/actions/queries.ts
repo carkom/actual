@@ -1,6 +1,7 @@
 import throttle from 'throttleit';
 
 import { send } from '../../platform/client/fetch';
+import { type AccountEntity } from '../../types/models';
 import * as constants from '../constants';
 
 import { pushModal } from './modals';
@@ -134,12 +135,14 @@ export function createCategory(
   name: string,
   groupId: string,
   isIncome: boolean,
+  hidden: boolean,
 ) {
   return async (dispatch: Dispatch) => {
     const id = await send('category-create', {
       name,
       groupId,
       isIncome,
+      hidden,
     });
     dispatch(getCategories());
     return id;
@@ -258,7 +261,7 @@ export function getAccounts() {
   };
 }
 
-export function updateAccount(account) {
+export function updateAccount(account: AccountEntity) {
   return async (dispatch: Dispatch) => {
     dispatch({ type: constants.UPDATE_ACCOUNT, account });
     await send('account-update', account);
