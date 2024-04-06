@@ -66,6 +66,7 @@ export function makeQuery(
       { date: intervalGroup },
       { category: { $id: '$category.id' } },
       { categoryHidden: { $id: '$category.hidden' } },
+      { categoryIncome: { $id: '$category.is_income' } },
       { categoryGroup: { $id: '$category.group.id' } },
       { categoryGroupHidden: { $id: '$category.group.hidden' } },
       { account: { $id: '$account.id' } },
