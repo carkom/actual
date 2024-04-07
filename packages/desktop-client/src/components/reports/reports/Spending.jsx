@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+import * as monthUtils from 'loot-core/src/shared/months';
 import { amountToCurrency } from 'loot-core/src/shared/util';
 
 import { useCategories } from '../../../hooks/useCategories';
@@ -137,11 +138,38 @@ export function Spending() {
                     }}
                   >
                     <AlignedText
+                      left={<Block>Spent Last MTD:</Block>}
+                      right={
+                        <Text>
+                          <PrivacyFilter blurIntensity={5}>
+                            {amountToCurrency(
+                              Math.abs(
+                                data.intervalData[
+                                  monthUtils.getDay(monthUtils.currentDay()) - 1
+                                ][
+                                  monthUtils.subMonths(
+                                    monthUtils.currentMonth(),
+                                    1,
+                                  )
+                                ].cumulative,
+                              ),
+                            )}
+                          </PrivacyFilter>
+                        </Text>
+                      }
+                    />
+                    <AlignedText
                       left={<Block>Spent MTD:</Block>}
                       right={
                         <Text>
                           <PrivacyFilter blurIntensity={5}>
-                            {amountToCurrency(Math.abs(data.totalTotals))}
+                            {amountToCurrency(
+                              Math.abs(
+                                data.intervalData[
+                                  monthUtils.getDay(monthUtils.currentDay()) - 1
+                                ][monthUtils.currentMonth()].cumulative,
+                              ),
+                            )}
                           </PrivacyFilter>
                         </Text>
                       }

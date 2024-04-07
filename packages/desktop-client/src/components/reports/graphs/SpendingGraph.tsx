@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+import * as monthUtils from 'loot-core/src/shared/months';
 import {
   amountToCurrency,
   amountToCurrencyNoDecimal,
@@ -26,12 +27,13 @@ import { Container } from '../Container';
 import { numberFormatterTooltip } from '../numberFormatter';
 
 type PayloadItem = {
+  value: number;
   payload: {
     date: string;
     totalAssets: number | string;
     totalDebts: number | string;
     totalTotals: number | string;
-    cumTotals: number | string;
+    cumulative: number | string;
   };
 };
 
@@ -39,12 +41,16 @@ type CustomTooltipProps = {
   active?: boolean;
   payload?: PayloadItem[];
   balanceTypeOp?: string;
+  thisMonth?: string;
+  lastMonth?: string;
 };
 
 const CustomTooltip = ({
   active,
   payload,
   balanceTypeOp,
+  thisMonth,
+  lastMonth,
 }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
@@ -61,25 +67,51 @@ const CustomTooltip = ({
       >
         <div>
           <div style={{ marginBottom: 10 }}>
-            <strong>{payload[0].payload[0].date}</strong>
+            <strong>{payload[0].payload[thisMonth].date}</strong>
           </div>
           <div style={{ lineHeight: 1.5 }}>
-            {['cumTotals'].includes(balanceTypeOp) && (
-              <AlignedText
-                left="Spending:"
-                right={amountToCurrency(payload[0].payload[0].cumTotals)}
-              />
+            {['cumulative'].includes(balanceTypeOp) && (
+              <>
+                <AlignedText
+                  left="Last Month:"
+                  right={amountToCurrency(
+                    payload[0].payload[lastMonth].cumulative * -1,
+                  )}
+                />
+                {payload[0].payload[thisMonth].cumulative && (
+                  <>
+                    <AlignedText
+                      left="Spending:"
+                      right={amountToCurrency(
+                        payload[0].payload[thisMonth].cumulative * -1,
+                      )}
+                    />
+                    <AlignedText
+                      left="Difference:"
+                      right={amountToCurrency(
+                        (payload[0].payload[thisMonth].cumulative -
+                          payload[0].payload[lastMonth].cumulative) *
+                          -1,
+                      )}
+                    />
+                  </>
+                )}
+              </>
             )}
             {['totalAssets', 'totalTotals'].includes(balanceTypeOp) && (
               <AlignedText
                 left="Assets:"
-                right={amountToCurrency(payload[0].payload.totalAssets)}
+                right={amountToCurrency(
+                  payload[0].payload[thisMonth].totalAssets,
+                )}
               />
             )}
             {['totalDebts', 'totalTotals'].includes(balanceTypeOp) && (
               <AlignedText
                 left="Debt:"
-                right={amountToCurrency(payload[0].payload.totalDebts)}
+                right={amountToCurrency(
+                  payload[0].payload[thisMonth].totalDebts,
+                )}
               />
             )}
             {['totalTotals'].includes(balanceTypeOp) && (
@@ -87,7 +119,9 @@ const CustomTooltip = ({
                 left="Net:"
                 right={
                   <strong>
-                    {amountToCurrency(payload[0].payload.totalTotals)}
+                    {amountToCurrency(
+                      payload[0].payload[thisMonth].totalTotals,
+                    )}
                   </strong>
                 }
               />
@@ -107,9 +141,11 @@ type SpendingGraphProps = {
 
 export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
   const privacyMode = usePrivacyMode();
-  const balanceTypeOp = 'cumTotals';
-  const dataMax = Math.max(...data.intervalData[0].map(i => i[balanceTypeOp]));
-  const dataMin = Math.min(...data.intervalData[0].map(i => i[balanceTypeOp]));
+  const balanceTypeOp = 'cumulative';
+  const thisMonth = monthUtils.currentMonth();
+  const lastMonth = monthUtils.subMonths(monthUtils.currentMonth(), 1);
+  const dataMax = Math.max(...data.intervalData.map(i => i[balanceTypeOp]));
+  const dataMin = Math.min(...data.intervalData.map(i => i[balanceTypeOp]));
 
   const tickFormatter = tick => {
     if (!privacyMode) return `${amountToCurrencyNoDecimal(tick)}`; // Formats the tick values as strings with commas
@@ -129,12 +165,12 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
 
   const off = gradientOffset();
 
-  const getVal = obj => {
-    return obj.cumTotals && -1 * obj.cumTotals;
+  const getVal = (obj, month) => {
+    return obj[month][balanceTypeOp] && -1 * obj[month][balanceTypeOp];
   };
 
   const getDate = obj => {
-    return obj.date;
+    return obj[thisMonth].date;
   };
 
   return (
@@ -172,7 +208,7 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
                 )}
                 {compact ? null : (
                   <YAxis
-                    dataKey={val => getVal(val)}
+                    dataKey={val => getVal(val, lastMonth)}
                     domain={[0, 'auto']}
                     tickFormatter={tickFormatter}
                     tick={{ fill: theme.pageText }}
@@ -181,7 +217,13 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
                   />
                 )}
                 <Tooltip
-                  content={<CustomTooltip balanceTypeOp={balanceTypeOp} />}
+                  content={
+                    <CustomTooltip
+                      balanceTypeOp={balanceTypeOp}
+                      thisMonth={thisMonth}
+                      lastMonth={lastMonth}
+                    />
+                  }
                   formatter={numberFormatterTooltip}
                   isAnimationActive={false}
                 />
@@ -195,12 +237,7 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
                   >
                     <stop
                       offset={off}
-                      stopColor={theme.reportsBlue}
-                      stopOpacity={0.2}
-                    />
-                    <stop
-                      offset={off}
-                      stopColor={theme.reportsRed}
+                      stopColor={theme.reportsGreen}
                       stopOpacity={0.2}
                     />
                   </linearGradient>
@@ -213,12 +250,7 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
                   >
                     <stop
                       offset={off}
-                      stopColor={theme.reportsBlue}
-                      stopOpacity={1}
-                    />
-                    <stop
-                      offset={off}
-                      stopColor={theme.reportsRed}
+                      stopColor={theme.reportsGreen}
                       stopOpacity={1}
                     />
                   </linearGradient>
@@ -227,12 +259,29 @@ export function SpendingGraph({ style, data, compact }: SpendingGraphProps) {
                 <Area
                   type="linear"
                   dot={false}
-                  activeDot={false}
+                  activeDot={{
+                    fill: theme.reportsGreen,
+                    fillOpacity: 1,
+                    r: 10,
+                  }}
                   animationDuration={0}
-                  dataKey={val => getVal(val)}
+                  dataKey={val => getVal(val, thisMonth)}
                   stroke={`url(#stroke${balanceTypeOp})`}
+                  strokeWidth={3}
                   fill={`url(#fill${balanceTypeOp})`}
                   fillOpacity={1}
+                />
+                <Area
+                  type="linear"
+                  dot={false}
+                  activeDot={false}
+                  animationDuration={0}
+                  dataKey={val => getVal(val, lastMonth)}
+                  stroke="gray"
+                  strokeDasharray="10 10"
+                  strokeWidth={3}
+                  fill="gray"
+                  fillOpacity={0.2}
                 />
               </AreaChart>
             </div>
