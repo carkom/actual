@@ -19,29 +19,19 @@ import { makeQuery } from './makeQuery';
 
 type createSpendingSpreadsheetProps = {
   categories: { list: CategoryEntity[]; grouped: CategoryGroupEntity[] };
-  selectedCategories: CategoryEntity[];
-  conditions: RuleConditionEntity[];
-  conditionsOp: string;
+  conditions?: RuleConditionEntity[];
+  conditionsOp?: string;
   setDataCheck?: (value: boolean) => void;
 };
 
 export function createSpendingSpreadsheet({
   categories,
-  selectedCategories,
   conditions = [],
   conditionsOp,
   setDataCheck,
 }: createSpendingSpreadsheetProps) {
   const [startDate, endDate] = getSpecificRange(3, null, 'Months');
   const interval = 'Daily';
-
-  const categoryFilter = (categories.list || []).filter(
-    category =>
-      selectedCategories &&
-      selectedCategories.some(
-        selectedCategory => selectedCategory.id === category.id,
-      ),
-  );
 
   return async (
     spreadsheet: ReturnType<typeof useSpreadsheet>,
@@ -59,8 +49,7 @@ export function createSpendingSpreadsheet({
           startDate,
           endDate,
           interval,
-          selectedCategories,
-          categoryFilter,
+          categories.list,
           conditionsOpKey,
           filters,
         ),
@@ -71,8 +60,7 @@ export function createSpendingSpreadsheet({
           startDate,
           endDate,
           interval,
-          selectedCategories,
-          categoryFilter,
+          categories.list,
           conditionsOpKey,
           filters,
         ),

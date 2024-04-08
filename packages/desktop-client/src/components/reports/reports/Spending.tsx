@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import * as monthUtils from 'loot-core/src/shared/months';
 import { amountToCurrency } from 'loot-core/src/shared/util';
+import { type RuleConditionEntity } from 'loot-core/types/models/rule';
 
 import { useCategories } from '../../../hooks/useCategories';
 import { useFilters } from '../../../hooks/useFilters';
+import { SvgArrowLeft } from '../../../icons/v1/ArrowLeft';
 import { theme, styles } from '../../../style';
 import { AlignedText } from '../../common/AlignedText';
 import { Block } from '../../common/Block';
+import { Link } from '../../common/Link';
 import { Text } from '../../common/Text';
 import { View } from '../../common/View';
 import { AppliedFilters } from '../../filters/AppliedFilters';
+import { FilterButton } from '../../filters/FiltersMenu';
 import { PrivacyFilter } from '../../PrivacyFilter';
 import { SpendingGraph } from '../graphs/SpendingGraph';
-import { Header } from '../Header';
 import { LoadingIndicator } from '../LoadingIndicator';
 import { createSpendingSpreadsheet } from '../spreadsheets/spending-spreadsheet';
 import { useReport } from '../useReport';
@@ -28,27 +31,19 @@ export function Spending() {
     onDelete: onDeleteFilter,
     onUpdate: onUpdateFilter,
     onCondOpChange,
-  } = useFilters();
+  } = useFilters<RuleConditionEntity>();
 
-  const [selectedCategories, setSelectedCategories] = useState();
   const [dataCheck, setDataCheck] = useState(false);
-
-  useEffect(() => {
-    if (selectedCategories === undefined && categories.list.length !== 0) {
-      setSelectedCategories(categories.list);
-    }
-  }, [categories, selectedCategories]);
 
   const getGraphData = useMemo(() => {
     setDataCheck(false);
     return createSpendingSpreadsheet({
       categories,
-      selectedCategories,
       conditions: filters,
       conditionsOp,
       setDataCheck,
     });
-  }, [categories, selectedCategories, filters, conditionsOp]);
+  }, [categories, filters, conditionsOp]);
 
   const data = useReport('default', getGraphData);
 
@@ -64,14 +59,37 @@ export function Spending() {
           flexShrink: 0,
         }}
       >
-        <Header title="Monthly Spending Report" />
-        <Text
+        <View
           style={{
-            ...styles.veryLargeText,
-            marginTop: 40,
-            color: theme.pageTextPositive,
+            padding: 10,
+            paddingTop: 0,
+            flexShrink: 0,
           }}
-        />
+        >
+          <Link
+            variant="button"
+            type="bare"
+            to="/reports"
+            style={{ marginBottom: '15', alignSelf: 'flex-start' }}
+          >
+            <SvgArrowLeft width={10} height={10} style={{ marginRight: 5 }} />{' '}
+            Back
+          </Link>
+          <Text style={{ ...styles.veryLargeText, marginBottom: 10 }}>
+            Monthly Spending Report
+          </Text>
+
+          {filters && (
+            <View style={{ flexDirection: 'row' }}>
+              <FilterButton
+                onApply={onApplyFilter}
+                compact={false}
+                hover={false}
+              />
+              <View style={{ flex: 1 }} />
+            </View>
+          )}
+        </View>
       </View>
       <View
         style={{
@@ -89,11 +107,15 @@ export function Spending() {
         >
           {filters && filters.length > 0 && (
             <View
-              style={{ marginBottom: 10, marginLeft: 5, flexShrink: 0 }}
-              spacing={2}
-              direction="row"
-              justify="flex-start"
-              align="flex-start"
+              style={{
+                marginBottom: 10,
+                marginLeft: 5,
+                flexShrink: 0,
+                flexDirection: 'row',
+                spacing: 2,
+                justifyContent: 'flex-start',
+                alignContent: 'flex-start',
+              }}
             >
               <AppliedFilters
                 filters={filters}
