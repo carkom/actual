@@ -573,9 +573,9 @@ handlers['query'] = async function (query) {
   return aqlQuery(query);
 };
 
-handlers['account-update'] = mutator(async function ({ id, name }) {
+handlers['account-update'] = mutator(async function ({ id, name, currency }) {
   return withUndo(async () => {
-    await db.update('accounts', { id, name });
+    await db.update('accounts', { id, name, currency });
     return {};
   });
 });
@@ -721,6 +721,7 @@ handlers['simplefin-accounts-link'] = async function ({
 
 handlers['account-create'] = mutator(async function ({
   name,
+  currency,
   balance,
   offBudget,
   closed,
@@ -728,6 +729,7 @@ handlers['account-create'] = mutator(async function ({
   return withUndo(async () => {
     const id = await db.insertAccount({
       name,
+      currency: currency ?? 'None',
       offbudget: offBudget ? 1 : 0,
       closed: closed ? 1 : 0,
     });

@@ -140,7 +140,7 @@ export interface ServerHandlers {
 
   query: (query: Query) => Promise<{ data: unknown; dependencies }>;
 
-  'account-update': (arg: { id; name }) => Promise<unknown>;
+  'account-update': (arg: { id; name; currency }) => Promise<unknown>;
 
   'accounts-get': () => Promise<AccountEntity[]>;
 
@@ -163,6 +163,7 @@ export interface ServerHandlers {
 
   'account-create': (arg: {
     name: string;
+    currency?: string;
     balance?: number;
     offBudget?: boolean;
     closed?: 0 | 1;

@@ -24,6 +24,8 @@ import {
 import { type SheetFields, type Binding } from '../spreadsheet';
 import { CellValue } from '../spreadsheet/CellValue';
 
+import { CurrencySymbol } from './CurrencySymbol';
+
 export const accountNameStyle: CSSProperties = {
   marginTop: -2,
   marginBottom: 2,
@@ -50,6 +52,7 @@ type AccountProps<FieldName extends SheetFields<'account'>> = {
   outerStyle?: CSSProperties;
   onDragChange?: OnDragChangeCallback<{ id: string }>;
   onDrop?: OnDropCallback;
+  currency?: string;
 };
 
 export function Account<FieldName extends SheetFields<'account'>>({
@@ -65,6 +68,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
   outerStyle,
   onDragChange,
   onDrop,
+  currency,
 }: AccountProps<FieldName>) {
   const type = account
     ? account.closed
@@ -154,8 +158,21 @@ export function Account<FieldName extends SheetFields<'account'>>({
                   paddingBottom: '3px',
                 }
               }
-              left={name}
-              right={<CellValue binding={query} type="financial" />}
+              left={
+                name + (currency && currency !== 'None' ? ` (${currency})` : '')
+              }
+              right={
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <CurrencySymbol currency={currency} />
+                  <CellValue binding={query} type="financial" />
+                </View>
+              }
             />
           </Link>
         </View>

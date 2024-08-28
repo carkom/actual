@@ -157,7 +157,7 @@ function SplitAmountMethodSelect({ options, style, value, onChange }) {
   );
 }
 
-function EditorButtons({ onAdd, onDelete }) {
+export function EditorButtons({ onAdd, onDelete }) {
   return (
     <>
       {onDelete && (

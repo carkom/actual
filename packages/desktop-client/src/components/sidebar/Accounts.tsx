@@ -97,6 +97,7 @@ export function Accounts({
           onDragChange={onDragChange}
           onDrop={onReorder}
           outerStyle={makeDropPadding(i)}
+          currency={account.currency}
         />
       ))}
 

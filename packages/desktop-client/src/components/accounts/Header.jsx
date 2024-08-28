@@ -22,6 +22,7 @@ import { MenuButton } from '../common/MenuButton';
 import { Popover } from '../common/Popover';
 import { Search } from '../common/Search';
 import { Stack } from '../common/Stack';
+import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { FilterButton } from '../filters/FiltersMenu';
 import { FiltersStack } from '../filters/FiltersStack';
@@ -67,6 +68,7 @@ export function AccountHeader({
   onToggleExtraBalances,
   onSaveName,
   onExposeName,
+  //onChangeCurrency,
   onSync,
   onImport,
   onMenuSelect,
@@ -89,8 +91,10 @@ export function AccountHeader({
   onMakeAsNonSplitTransactions,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  //const [currencyMenu, setCurrencyMenu] = useState(false);
   const searchInput = useRef(null);
   const triggerRef = useRef(null);
+  //const triggerRef2 = useRef(null);
   const splitsExpanded = useSplitsExpanded();
   const syncServerStatus = useSyncServerStatus();
   const isUsingServer = syncServerStatus !== 'no-server';
@@ -255,6 +259,49 @@ export function AccountHeader({
                     }}
                   />
                 </Button>
+                {account.currency !== 'None' && account.currency && (
+                  <Text
+                    className="hover-visible"
+                    style={{
+                      color: theme.pageTextSubdued,
+                    }}
+                  >
+                    {account.currency}
+                  </Text>
+
+                  /*<>
+                      <Button
+                        ref={triggerRef2}
+                        variant="bare"
+                        aria-label="Change currency"
+                        className="hover-visible"
+                        onPress={() => setCurrencyMenu(true)}
+                      >
+                        <Text
+                          style={{
+                            color: theme.pageTextSubdued,
+                          }}
+                        >
+                          {account.currency}
+                        </Text>
+                      </Button>
+                      <Popover
+                        triggerRef={triggerRef2}
+                        isOpen={currencyMenu}
+                        onOpenChange={() => setCurrencyMenu(false)}
+                      >
+                        <Menu
+                          onMenuSelect={item => {
+                            setCurrencyMenu(false);
+                            onChangeCurrency(item);
+                          }}
+                          items={currencies.map(v => {
+                            return { name: v.value, text: v.label };
+                          })}
+                        />
+                      </Popover>
+                    </>*/
+                )}
               </View>
             ) : (
               <View

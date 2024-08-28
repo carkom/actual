@@ -21,9 +21,11 @@ import {
   ModalHeader,
   ModalTitle,
 } from '../common/Modal2';
+import { Select } from '../common/Select';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
+import { currencies } from '../util/CurrencyItem';
 
 export function CreateLocalAccountModal() {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ export function CreateLocalAccountModal() {
   const [name, setName] = useState('');
   const [offbudget, setOffbudget] = useState(false);
   const [balance, setBalance] = useState('0');
+  const [currency, setCurrency] = useState('None');
 
   const [nameError, setNameError] = useState(false);
   const [balanceError, setBalanceError] = useState(false);
@@ -49,7 +52,7 @@ export function CreateLocalAccountModal() {
     if (!nameError && !balanceError) {
       dispatch(closeModal());
       const id = await dispatch(
-        createAccount(name, toRelaxedNumber(balance), offbudget),
+        createAccount(name, currency, toRelaxedNumber(balance), offbudget),
       );
       navigate('/accounts/' + id);
     }
@@ -162,6 +165,26 @@ export function CreateLocalAccountModal() {
                   Balance must be a number
                 </FormError>
               )}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
+                <Text>Currency:</Text>
+                <Select
+                  onChange={setCurrency}
+                  value={currency}
+                  options={currencies.map(f => [f.value, f.label])}
+                  buttonStyle={{
+                    marginLeft: 10,
+                    ':hover': {
+                      backgroundColor: theme.buttonNormalBackgroundHover,
+                    },
+                  }}
+                />
+              </View>
 
               <ModalButtons>
                 <Button onPress={close}>Back</Button>

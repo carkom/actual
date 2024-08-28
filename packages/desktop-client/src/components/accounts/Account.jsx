@@ -554,6 +554,14 @@ class AccountInternal extends PureComponent {
     this.setState({ isAdding: true });
   };
 
+  onChangeCurrency = currency => {
+    const accountId = this.props.accountId;
+    const account = this.props.accounts.find(
+      account => account.id === accountId,
+    );
+    this.props.updateAccount({ ...account, currency });
+  };
+
   onExposeName = flag => {
     this.setState({ editingName: flag });
   };
@@ -595,6 +603,9 @@ class AccountInternal extends PureComponent {
             this.props.unlinkAccount(accountId);
           },
         });
+        break;
+      case 'currency':
+        this.props.openAccountCloseModal(accountId);
         break;
       case 'close':
         this.props.openAccountCloseModal(accountId);
@@ -1506,6 +1517,7 @@ class AccountInternal extends PureComponent {
                 onToggleExtraBalances={this.onToggleExtraBalances}
                 onSaveName={this.onSaveName}
                 onExposeName={this.onExposeName}
+                onChangeCurrency={this.onChangeCurrency}
                 onReconcile={this.onReconcile}
                 onDoneReconciling={this.onDoneReconciling}
                 onCreateReconciliationTransaction={

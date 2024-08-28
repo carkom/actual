@@ -15,6 +15,7 @@ export type FeatureFlag =
 export type SyncedPrefs = Partial<
   {
     firstDayOfWeekIdx: `${0 | 1 | 2 | 3 | 4 | 5 | 6}`;
+    currencies: 'None' | 'AUS' | 'EUR' | 'GBP' | 'USD';
     dateFormat:
       | 'MM/dd/yyyy'
       | 'dd/MM/yyyy'
@@ -81,6 +82,7 @@ export type LocalPrefs = SyncedPrefs &
     'mobile.showSpentColumn': boolean;
   }>;
 
+export type Currencies = 'None' | 'AUS' | 'EUR' | 'GBP' | 'USD';
 export type Theme = 'light' | 'dark' | 'auto' | 'midnight' | 'development';
 export type GlobalPrefs = Partial<{
   floatingSidebar: boolean;
