@@ -391,6 +391,14 @@ export function integerToAmount(n) {
   return parseFloat((safeNumber(n) / 100).toFixed(2));
 }
 
+export function rateToInteger(n: number) {
+  return Math.round(n * 10000);
+}
+
+export function integerToRate(n) {
+  return parseFloat((safeNumber(n) / 10000).toFixed(4));
+}
+
 // This is used when the input format could be anything (from
 // financial files and we don't want to parse based on the user's
 // number format, because the user could be importing from many

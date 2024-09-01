@@ -66,6 +66,7 @@ export const schema = {
   accounts: {
     id: f('id'),
     name: f('string', { required: true }),
+    currency: f('string'),
     offbudget: f('boolean'),
     closed: f('boolean'),
     sort_order: f('float'),
@@ -178,6 +179,14 @@ export const schema = {
     x: f('integer', { required: true }),
     y: f('integer', { required: true }),
     meta: f('json'),
+    tombstone: f('boolean'),
+  },
+  currencies: {
+    id: f('id'),
+    index_value: f('string'),
+    currency: f('string'),
+    commit_date: f('string'),
+    rate: f('integer'),
     tombstone: f('boolean'),
   },
 };

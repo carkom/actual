@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
-import { parse } from 'loot-core/shared/rules';
+import { v4 as uuidv4 } from 'uuid';
 
+import { parse } from 'loot-core/shared/rules';
+import { send } from 'loot-core/src/platform/client/fetch';
+
+import { Button } from '../common/Button2';
 import { Stack } from '../common/Stack';
 import { Text } from '../common/Text';
 import { CurrencyItem } from '../util/CurrencyItem';
@@ -9,12 +13,19 @@ import { CurrencyItem } from '../util/CurrencyItem';
 import { Setting } from './UI';
 
 export type condType = {
+  id?: string;
   index: string;
   currency: string;
   rate: number;
 };
 
+function onCommit(currency, currencyId) {
+  const test = { ...currency, id: currencyId };
+  send('currency-create', test);
+}
+
 export function CurrencySettings() {
+  const currencyId = uuidv4();
   const cond: condType[] = [{ index: 'base', currency: 'None', rate: 1 }];
   const [conditions, setConditions] = useState(cond.map(parse));
 
@@ -51,6 +62,17 @@ export function CurrencySettings() {
         <strong>Currency</strong> allows for accounts to have different
         currencies.
       </Text>
+      <Button
+        variant="bare"
+        aria-label="Edit account name"
+        className="hover-visible"
+        onPress={() => {
+          onCommit(conditions[0], currencyId);
+          onCommit(conditions[1], currencyId);
+        }}
+      >
+        <Text>Commit</Text>
+      </Button>
     </Setting>
   );
 }
