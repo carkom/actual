@@ -80,5 +80,8 @@
   "browserslist": [
     "electron 24.0",
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "ag-grid-react": "^32.1.0"
+  }
 }

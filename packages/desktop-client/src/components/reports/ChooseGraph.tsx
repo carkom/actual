@@ -12,7 +12,7 @@ import { BarLineGraph } from './graphs/BarLineGraph';
 import { DonutGraph } from './graphs/DonutGraph';
 import { LineGraph } from './graphs/LineGraph';
 import { StackedBarGraph } from './graphs/StackedBarGraph';
-import { ReportTable } from './graphs/tableGraph/ReportTable';
+import { ReportTable } from './graphs/tableGraph/ReportTable2';
 import { ReportOptions } from './ReportOptions';
 
 type ChooseGraphProps = {
